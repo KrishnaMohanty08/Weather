@@ -1,0 +1,61 @@
+.heading{
+    display :flex;
+    flex:700px ;
+    background-color: rgb(230, 230, 230);
+    padding: 5px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular';
+    border-radius: 7px;
+    font-size: 18px;
+    justify-content: center;
+}
+.heading img{
+    width:60px;
+    height:60px;
+    margin :20px;
+    opacity :0.8;
+    border-radius: 8px;
+}
+.pg-format{
+    margin: 20px;
+    border: 3px dotted black;
+    padding: 10px;
+}
+.Personal-info{
+    display:grid;
+    background-color: rgb(252, 232, 208);
+    border-radius: 4px;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+.Profession-info{
+    background-color: rgb(212, 238, 196);
+    padding: 10px;
+    
+}
+li{
+    margin: 15px;
+}
+.text-box{
+    width: 150px;
+    border: 0px ;
+    padding-left: 5px;
+    height:20px;
+}
+.discription{
+  min-width: 600px;
+  height: 100px;
+  white-space: pre-wrap; 
+  display: block; 
+  padding: 10px; 
+  resize: vertical;
+}
+.discription ::placeholder{
+    font-size:20px;
+}
+.submit{
+    display:block;
+    margin-left: 300px;
+    padding: 10px ;
+    border-radius: 5px;
+
+}
+
