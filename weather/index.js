@@ -48,7 +48,7 @@ citySearch.addEventListener("submit",(e)=>{
 
 //fetch and display
 const getWeatherData =async()=>{
-    const weatherUrl =`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=f3b5456eba852ca3da07d866b3e6a23c`;
+    const weatherUrl =`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=[API KEY]`;
     try{
         const response =await fetch(weatherUrl);
         const data =await response.json();
@@ -79,4 +79,4 @@ const getWeatherData =async()=>{
     
 }
 document.body.addEventListener("load",getWeatherData());
-//document.body.addEventListener("load",getWeatherData());
+
