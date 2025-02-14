@@ -1,7 +1,3 @@
-Here's a README for your weather app repository:
-
----
-
 # Weather App
 
 This repository contains a simple weather application that allows users to search for weather information by city. The app displays current weather conditions including temperature, humidity, wind speed, and more.
