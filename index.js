@@ -1,82 +1,91 @@
-let cityName =document.querySelector(".weather_city");
-let dateTime =document.querySelector(".weather_date_time");
-let w_forcast =document.querySelector(".weather_forecast");
-let w_temprature =document.querySelector(".weather_temperature");
-let w_icon =document.querySelector(".weather_icon");
-let w_minTem =document.querySelector(".weather_min");
-let w_maxTem =document.querySelector(".weather_max");
+let cityName = document.querySelector(".weather_city");
+let dateTime = document.querySelector(".weather_date_time");
+let w_forcast = document.querySelector(".weather_forecast");
+let w_temprature = document.querySelector(".weather_temperature");
+let w_icon = document.querySelector(".weather_icon");
+let w_minTem = document.querySelector(".weather_min");
+let w_maxTem = document.querySelector(".weather_max");
 
-let w_feelsLike =document.querySelector(".weather_feelsLike");
-let w_humidity =document.querySelector(".weather_humidity");
-let w_wind =document.querySelector(".weather_wind");
-let w_pressure =document.querySelector(".weather_pressure");
+let w_feelsLike = document.querySelector(".weather_feelsLike");
+let w_humidity = document.querySelector(".weather_humidity");
+let w_wind = document.querySelector(".weather_wind");
+let w_pressure = document.querySelector(".weather_pressure");
 
-let citySearch=document.querySelector(".weather_search");
+let citySearch = document.querySelector(".weather_search");
+const API = 'f6cef6d51155417580792021251402';
 
-//functions
-//to get actual country name 
-const getCountryName =(code)=>{
-    return new Intl.DisplayNames([code],{type:"region"}).of(code);
-}
-const getDateTime =(dt)=>{
-    
-    const curDate =new Date(dt*1000);
-    const options={
-        weekday:"long",
-        year:"numeric",
-        month:"long",
-        day:"numeric",
-        hour:"numeric",
-        minute:"numeric",
+const getDateTime = (dt) => {
+    const curDate = new Date(dt);
+    const options = {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
     };
-    const formatter =new Intl.DateTimeFormat("en-US",options);
+    const formatter = new Intl.DateTimeFormat("en-US", options);
     return formatter.format(curDate);
 };
 
-let city="pune";
-//search function
-citySearch.addEventListener("submit",(e)=>{
+let city = "pune";
+
+// Search function
+citySearch.addEventListener("submit", (e) => {
     e.preventDefault();
-
-    let cityName = document.querySelector(".city_name");
-    console.log(cityName.value);
-
-    city=cityName.value;
+    let cityInput = document.querySelector(".city_name");
+    city = cityInput.value;
     getWeatherData();
-    cityName.value="";
+    cityInput.value = "";
 });
 
-//fetch and display
-const getWeatherData =async()=>{
-    const weatherUrl =`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=[API KEY]`;
-    try{
-        const response =await fetch(weatherUrl);
-        const data =await response.json();
-
-        const {main,name,weather,wind,sys,dt} =data;
-        console.log(data);
-        cityName.innerHTML=`${name},${getCountryName(sys.country)}`;
-        dateTime.innerHTML =getDateTime(dt);
-
-        w_forcast.innerHTML=`${weather[0].main}`;
-        w_icon.innerHTML=`${weather[0].icon}`;
-
-        w_temprature.innerHTML=`${main.temp}&#176`;
-        w_minTem.innerHTML=`Min:${main.temp_min.toFixed()}&#176`;
-        w_maxTem.innerHTML=`Max:${main.temp_max.toFixed()}&#176`;
-        
-        w_feelsLike.innerHTML=`${main.feels_like}&#176`;
-        w_humidity.innerHTML=`${main.humidity}&#176`;
-        w_pressure.innerHTML=`${main.pressure}&#176`;
-        w_wind.innerHTML=`${wind.speed}&#176`;
-
-
-
-    }
-    catch (error){
-            console.log(error);
+// Fetch and display
+const getWeatherData = async () => {
+    const weatherUrl = `http://api.weatherapi.com/v1/current.json?key=${API}&q=${city}`;
+    try {
+        const response = await fetch(weatherUrl);
+        if (!response.ok) {
+            throw new Error('City not found');
         }
-    
-}
-document.body.addEventListener("load",getWeatherData());
+        const data = await response.json();
+        console.log(data);
 
+        // WeatherAPI.com response structure is different
+        const { location, current } = data;
+        
+        cityName.innerHTML = `${location.name}, ${location.country}`;
+        dateTime.innerHTML = getDateTime(location.localtime);
+
+        w_forcast.innerHTML = `${current.condition.text}`;
+        w_icon.innerHTML = `<img src="https:${current.condition.icon}" alt="weather icon">`;
+
+        w_temprature.innerHTML = `${current.temp_c}&#176;C`;
+        // Note: WeatherAPI.com doesn't provide min/max in current weather
+        // You'd need to use forecast API for that
+        w_minTem.innerHTML = `Feels like: ${current.feelslike_c}&#176;C`;
+        w_maxTem.innerHTML = ``;
+        
+        w_feelsLike.innerHTML = `${current.feelslike_c}&#176;C`;
+        w_humidity.innerHTML = `${current.humidity}%`;
+        w_pressure.innerHTML = `${current.pressure_mb} hPa`;
+        w_wind.innerHTML = `${current.wind_kph} km/h`;
+
+    } catch (error) {
+        console.log(error);
+        cityName.innerHTML = "City not found";
+        // Clear other weather data
+        dateTime.innerHTML = "";
+        w_forcast.innerHTML = "";
+        w_icon.innerHTML = "";
+        w_temprature.innerHTML = "";
+        w_minTem.innerHTML = "";
+        w_maxTem.innerHTML = "";
+        w_feelsLike.innerHTML = "";
+        w_humidity.innerHTML = "";
+        w_pressure.innerHTML = "";
+        w_wind.innerHTML = "";
+    }
+}
+
+// Initialize weather data on page load
+window.addEventListener("load", getWeatherData);

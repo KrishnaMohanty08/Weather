@@ -35,10 +35,10 @@ To run this project locally, follow these steps:
 
 ## API Integration
 
-The app uses the [OpenWeatherMap API](https://openweathermap.org/api) to retrieve weather data. You need to replace the API key in `index.js` with your own key from OpenWeatherMap:
+The app uses the [WeatherAPI](https://www.weatherapi.com/my/api) to retrieve weather data. You need to replace the API key in `index.js` with your own key from OpenWeatherMap:
 
 ```javascript
-const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=YOUR_API_KEY`;
+const weatherUrl = `https://www.weatherapi.com/docs/`;
 ```
 
 ## License
